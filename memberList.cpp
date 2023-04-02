@@ -4,8 +4,8 @@
 //****************************************************
 #include "memberNode.h"
 #include "memberList.h"
-
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
 //****************************************************
@@ -25,9 +25,15 @@ memberList::memberList()
 // This function destroys the entire list somewhat   *
 // recusively?										 *
 //****************************************************
-memberList::~memberList()
-{
+memberList::~memberList() {
+	memberNode* currNode = head;
+
 	if (head) {
+		while (currNode != nullptr) {
+			int id = currNode->getId();
+			currNode = currNode->getNext();
+			RemoveOneMember(id);
+		}
 		delete head;
 		head = nullptr;
 		tail = nullptr;
@@ -50,7 +56,7 @@ memberList& memberList::operator=(memberList& rhs) {
 		}
 		while (currNode != nullptr) {
 
-			PushBack(new memberNode(currNode->getName(), currNode->getId(), currNode->getPolicy(), currNode->getYear(), currNode->getPremium()));
+			PushBack(new memberNode(currNode->getId(), currNode->getName(), currNode->getPolicy(), currNode->getYear(), currNode->getPremium(), nullptr));
 			currNode = currNode->getNext();					//Traversal Statement
 		}													//Important to point to the next node
 	}
@@ -66,7 +72,7 @@ memberList::memberList(const memberList& rhs) {
 	memberNode* currNode = rhs.head;                // Copy List
 
 	while (currNode != nullptr) {
-		PushBack(new memberNode(currNode->getName(), currNode->getId(), currNode->getPolicy(), currNode->getYear(), currNode->getPremium()));
+		PushBack(new memberNode(currNode->getId(), currNode->getName(), currNode->getPolicy(), currNode->getYear(), currNode->getPremium(), nullptr));
 		currNode = currNode->getNext();					//Traversal Statement
 	}													//Important to point to the next node
 }
@@ -86,93 +92,153 @@ void memberList::PushBack(memberNode* currNode) {
 	}
 }
 // *****************************************************************
-// Function: addOneMember										   *
+// Function: AddOneMember										   *
 // This function adds a new member to the end of the linked list.  *
 // *****************************************************************
 
-void memberList::addOneMember(memberNode* currNode) {
-	PushBack(currNode);
+void memberList::AddOneMember(memberNode* currNode) {
+	if (!head) {
+		head = tail = currNode;
+	}
+	else {
+		currNode->setNext(head);
+		head = currNode;
+	}
+	cout << currNode->getId() << " member added." << endl;
 }
 
-// Function: removeOneMember
-// This function removes a member from the linked list by their ID.
-void memberList::removeOneMember(int id) {
+/// *****************************************************************
+// Function: RemoveOneMember				                        *
+// This function removes a member from the linked list by their ID. *
+// ******************************************************************
+void memberList::RemoveOneMember(int id) {
 	memberNode* currNode = head;
 	memberNode* prevNode = nullptr;
+
+	if (head == nullptr) {
+		cout << "The list is empty." << endl;
+		return;
+	}
+
 	while (currNode != nullptr) {
 		if (currNode->getId() == id) {
-			if (prevNode == nullptr) { // if it's the head node
+			if (currNode == head) { // if it's the head node
 				head = currNode->getNext();
 			}
 			else {
 				prevNode->setNext(currNode->getNext());
+				if (currNode == tail) { // if it's the tail node
+					tail = prevNode;
+				}
 			}
-			if (currNode == tail) { // if it's the tail node
-				tail = prevNode;
-			}
+			cout << id << " member removed." << endl;
 			delete currNode;
-			break;
+			return;
 		}
 		prevNode = currNode;
 		currNode = currNode->getNext();
 	}
+	cout << id << " is not a member" << endl;
+}
+
+// *****************************************************************
+// Function: PrintMemberList					                   *
+// This function prints a list of all members and their stats      *
+// *****************************************************************
+void memberList::PrintMemberList() const {
+	memberNode* currNode = head;
+
+	cout << "===============================================================================" << endl;
+	cout << left << setw(10) << "Id" << setw(25) << "Name" << setw(20) << "Policy" << setw(10) << "Premium" << setw(10) << "Years" << endl;
+	cout << left << setw(10) << "--" << setw(25) << "----" << setw(20) << "------" << setw(10) << "-------" << setw(10) << "-----" << endl;
+
+	while (currNode != nullptr) {
+		cout << left << setw(10) << currNode->getId() << setw(25) << currNode->getName() << setw(20) << currNode->getPolicy() <<
+			setw(10) << currNode->getPremium() << setw(10) << currNode->getYear() << endl;
+		currNode = currNode->getNext();
+	}
+
+	cout << "===============================================================================" << endl;
 }
 
 
-// Function: PrintPolicy
-// This function prints a list of members with the given policy.
+// *****************************************************************
+// Function: PrintPolicy						                   *
+// This function prints a list of members with the given policy.   *
+// *****************************************************************
+
 void memberList::PrintPolicy(string policy) {
-	memberNode* curr = head;
-	double total_premium = 0;
-	int count = 0;
+	memberNode* currNode = head;
 	bool found = false;
+	double totalPremiums = 0;
+	int policyCount = 0;
 
-	cout << "Members with policy: " << policy << endl;
-	cout << "ID\tName\tPolicy\tYear\tPremium" << endl;
+	cout << "===============================================================================" << endl;
+	cout << "All " << policy << " members" << endl;
+	cout << "===============================================================================" << endl;
+	cout << left << setw(10) << "Id" << setw(25) << "Name" << setw(20) << "Policy" << setw(10) << "Premium" << setw(10) << "Years" << endl;
+	cout << left << setw(10) << "--" << setw(25) << "----" << setw(20) << "------" << setw(10) << "-------" << setw(10) << "-----" << endl;
 
-	while (curr != nullptr) {
-		if (curr->getPolicy() == policy) {
-			cout << curr->getId() << "\t" << curr->getName() << "\t" << curr->getPolicy() << "\t" << curr->getYear() << "\t" << curr->getPremium() << endl;
-			total_premium += curr->getPremium();
-			count++;
-			found = true;
+	while (currNode != nullptr) {
+		if (currNode->getPolicy() == policy) {
+			policyCount++;
+			totalPremiums += currNode->getPremium();
+			cout << left << setw(10) << currNode->getId() << setw(25) << currNode->getName() << setw(20) << currNode->getPolicy() <<
+				setw(10) << currNode->getPremium() << setw(10) << currNode->getYear() << endl;
 		}
-		curr = curr->getNext();
+		currNode = currNode->getNext();
 	}
 
-	if (!found) {
-		cout << "No members found with policy: " << policy << endl;
+	cout << "-------------------------------------------------------------------------------" << endl;
+
+	if (policyCount == 0) {
+		cout << "Sorry, no " << policy << " members" << endl;
 	}
 	else {
-		cout << "Average premium of members with policy " << policy << ": $" << total_premium / count << endl;
+		cout << "The average " << policy << " premium is $" << (totalPremiums / policyCount) << endl;
+
 	}
+	cout << "===============================================================================" << endl;
 }
 
-// Function: PrintYear
-// This function prints a list of members who have been with the company for equal to or more than the given year.
+// *****************************************************************
+// Function: PrintYear							                   *
+// This function Prints the list of members						   *
+// that have at least a stated amount of years on their policy     *							
+// *****************************************************************
 void memberList::PrintYear(int year) {
-	memberNode* curr = head;
+	memberNode* currNode = head;
 	bool found = false;
 
-	cout << "Members who have been with the company for " << year << " or more years:" << endl;
-	cout << "ID\tName\tPolicy\tYear\tPremium" << endl;
+	cout << "===============================================================================" << endl;
+	cout << "Members of at least " << year << " years" << endl;
+	cout << "===============================================================================" << endl;
+	cout << left << setw(10) << "Id" << setw(25) << "Name" << setw(20) << "Policy" << setw(10) << "Premium" << setw(10) << "Years" << endl;
+	cout << left << setw(10) << "--" << setw(25) << "----" << setw(20) << "------" << setw(10) << "-------" << setw(10) << "-----" << endl;
 
-	while (curr != nullptr) {
-		if ((2023 - curr->getYear()) >= year) {
-			cout << curr->getId() << "\t" << curr->getName() << "\t" << curr->getPolicy() << "\t" << curr->getYear() << "\t" << curr->getPremium() << endl;
+
+	while (currNode != nullptr) {
+		if ((currNode->getYear()) >= year) {
 			found = true;
+			cout << left << setw(10) << currNode->getId() << setw(25) << currNode->getName() << setw(20) << currNode->getPolicy() <<
+				setw(10) << currNode->getPremium() << setw(10) << currNode->getYear() << endl;
+			
 		}
-		curr = curr->getNext();
+		currNode = currNode->getNext();
 	}
 
 	if (!found) {
-		cout << "No members found who have been with the company for " << year << " or more years." << endl;
+		cout << "Sorry, no members with " << year << " or more years." << endl;
 	}
 }
 
-// Function: printLowPremium
-// This function prints the entire member list.
-void memberList::printLowPremium() {
+
+// *****************************************************************
+// Function: PrintLowestPremium									   *
+// This function prints the name of and stats of the person with   *
+// the lowest premium.											   *
+// *****************************************************************
+void memberList::PrintLowPremium() {
 	memberNode* curr = head;
 	memberNode* lowest = head;
 
@@ -183,14 +249,15 @@ void memberList::printLowPremium() {
 		curr = curr->getNext();
 	}
 
-	cout << "Member with the lowest premium:" << endl;
-	cout << "ID\tName\tPolicy\tYear\tPremium" << endl;
-	cout << lowest->getId() << "\t" << lowest->getName() << "\t" << lowest->getPolicy() << "\t" << lowest->getYear() << "\t" << lowest->getPremium() << endl;
+	cout << "Member with the lowest premium: " << endl;
+	cout << left << setw(10) << "Id" << setw(25) << "Name" << setw(20) << "Policy" << setw(10) << "Premium" << setw(10) << "Years" << endl;
+	cout << left << setw(10) << "--" << setw(25) << "----" << setw(20) << "------" << setw(10) << "-------" << setw(10) << "-----" << endl;
+	cout << left << setw(10) << lowest->getId() << setw(25) << lowest->getName() << setw(20) << lowest->getPolicy() <<
+		setw(10) << lowest->getPremium() << setw(10) << lowest->getYear() << endl;
+	cout << lowest->getName() << " has the lowest premium of " << lowest->getPremium() << " dollar(s)." << endl;
+	cout << "===============================================================================" << endl;
 }
 
-void memberList::swap(memberList& first, memberList& second)
-{
-}
 
 
 

@@ -13,6 +13,7 @@ public:
     // Set getter and setter functions for all data types, accessable by the user
     memberNode(int id, string name, string policy, int year, double premium, memberNode* next);
     ~memberNode();
+    memberNode();
 
     int getId() const;
     void setId(int id);

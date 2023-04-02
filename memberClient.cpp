@@ -31,27 +31,27 @@ int main() {
 	{
 		if (choice == 1) {				//Add a newly created node to the front of the list
 			currNode = CreatecurrNode();
-			MyListOfmembers.addOneMember(currNode);   //TODO: write the code to call the AddOneMember member function for your list
+			MyListOfmembers.AddOneMember(currNode);   //TODO: write the code to call the AddOneMember member function for your list
 
 		}
 		else if (choice == 2) {			//Finds and deletes a node based on the integer entered
 			infile >> Delid;
-			MyListOfmembers.removeOneMember(Delid);   //TODO: write the code to call the RemoveOneMember member function for your list
+			MyListOfmembers.RemoveOneMember(Delid);   //TODO: write the code to call the RemoveOneMember member function for your list
 		}
 		else if (choice == 3) {
-			MyListOfmembers.printMemberList();   //TODO: write the code to call the PrintMemberList member function for your list
+			MyListOfmembers.PrintMemberList();   //TODO: write the code to call the PrintMemberList member function for your list
 		}
 		else if (choice == 4) {
 			infile.ignore();	//TODO: write the code skip the new line character
 			getline(infile, policy);
-			MyListOfmembers.printPolicy(policy);   //TODO: write the code to call the PrintPolicy member function for your list
+			MyListOfmembers.PrintPolicy(policy);   //TODO: write the code to call the PrintPolicy member function for your list
 		}
 		else if (choice == 5) {
 			infile >> yrs;
-			MyListOfmembers.printYear(yrs);    //TODO: write the code to call the PrintYear member function for your list
+			MyListOfmembers.PrintYear(yrs);    //TODO: write the code to call the PrintYear member function for your list
 		}
 		else if (choice == 6) {
-			MyListOfmembers.printLowPremium();   //TODO: write the code to call the PrintLowPremium member function for your list
+			MyListOfmembers.PrintLowPremium();   //TODO: write the code to call the PrintLowPremium member function for your list
 		}
 		infile >> choice;				// get a menu choice in the loop	
 	}
@@ -79,11 +79,11 @@ memberNode* CreatecurrNode()
 	infile.ignore();
 	getline(infile, name);
 	getline(infile, policy);
-	infile >> year;
 	infile >> premium;
+	infile >> year;
 
 	//add those variables as arguments to populate your node.
-	currNode = new memberNode(name, id, policy, year, premium, *next);
+	currNode = new memberNode(id, name, policy, premium, year, nullptr);
 
 	return currNode;   //TODO write the code to return the pointer that points to the dynamic node
 

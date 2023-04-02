@@ -28,23 +28,23 @@ public:
     void PushBack(memberNode* currnode);
 
     // Add one member
-    void addOneMember(memberNode* currNode);
+    void AddOneMember(memberNode* currNode);
 
     // Remove one member
-    void removeOneMember(int id);
-
+    void RemoveOneMember(int id);
 
     // Print member list
-    void printMemberList() const;
+    void PrintMemberList() const;
 
     // Print members with a given policy and the average premium of those members
-    void printPolicy(const string& policy) const;
+    void PrintPolicy(string policy);
 
     // Print members who have been with the company for equal to or more than the given year
-    void printYear(int year) const;
+    void PrintYear(int year);
+
 
     // Print the member with the lowest premium
-    void printLowPremium();
+    void PrintLowPremium();
 
 private:
     memberNode* head; // Head pointer to the beginning of the list
