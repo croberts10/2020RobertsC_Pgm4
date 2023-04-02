@@ -1,3 +1,15 @@
+/* Program #4 - BG Insurance
+//
+// Programmer:  Connor Roberts
+//
+// Class:  CS 2020, Spring 2023, 9:30-10:20
+//
+// Due Date: April 2, 2023
+//
+// Purpose: The memberList.cpp file is a file that maintains a linked list of members. The class uses head, tail, and nullptr 
+// aswell as user input/memberNode.cpp to create this list.
+*/
+
 //****************************************************
 // Class: memberList.cpp (Implementation File)       *
 // This class maintains a list of objects.           *

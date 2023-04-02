@@ -4,6 +4,17 @@
 #pragma once
 
 #include <iostream>
+/* Program #4 - BG Insurance
+//
+// Programmer:  Connor Roberts
+//
+// Class:  CS 2020, Spring 2023, 9:30-10:20
+//
+// Due Date: April 2, 2023
+//
+// Purpose: The memberNode.h file is a file that declares the member functions of the memberList.cpp file.
+*/
+
 #include <cstdlib>
 #include <string>
 using namespace std;

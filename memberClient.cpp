@@ -1,3 +1,16 @@
+/* Program #4 - BG Insurance
+//
+// Programmer:  Connor Roberts
+//
+// Class:  CS 2020, Spring 2023, 9:30-10:20
+//
+// Due Date: April 2, 2023
+//
+// Purpose: The memberClient.cpp file is a file that takes in a text file of IDs, names, insurance policy type, 
+// insurance premium, and how many years are on that insurance. It accesses other classes to create a linked list/ stats for the program.
+*/
+
+
 //******************************************************
 // Program: memberListClient.cpp				       *
 // Client program to use the memberNode and memberList *

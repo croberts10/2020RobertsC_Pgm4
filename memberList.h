@@ -1,3 +1,14 @@
+/* Program #4 - BG Insurance
+//
+// Programmer:  Connor Roberts
+//
+// Class:  CS 2020, Spring 2023, 9:30-10:20
+//
+// Due Date: April 2, 2023
+//
+// Purpose: The memberList.h file is a file that declares the member functions of the memberList.cpp file.
+*/
+
 #pragma once
 #ifndef MEMBERLIST_H
 #define MEMBERLIST_H

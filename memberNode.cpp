@@ -1,3 +1,15 @@
+/* Program #4 - BG Insurance
+//
+// Programmer:  Connor Roberts
+//
+// Class:  CS 2020, Spring 2023, 9:30-10:20
+//
+// Due Date: April 2, 2023
+//
+// Purpose: The memberNode.cpp file is a file contains a constructor and desstructor for use by the client. Each class will
+// have data members that has getter functions to get that data or setter functions to set that data.
+*/
+
 #include <iostream>
 #include "memberNode.h"
 
