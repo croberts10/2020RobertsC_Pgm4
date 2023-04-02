@@ -96,11 +96,11 @@ memberList::memberList(const memberList& rhs) {
 //****************************************************
 void memberList::PushBack(memberNode* currNode) {
 	if (!head) {
-		head = tail = currNode;
+		head = tail = currNode;		// Set head and tail as currNode
 	}
 	else {
-		tail->setNext(currNode);
-		tail = currNode;
+		tail->setNext(currNode);	// Use SetNext function to pushback currNode
+		tail = currNode;	// tail is the currNode
 	}
 }
 // *****************************************************************
@@ -110,11 +110,11 @@ void memberList::PushBack(memberNode* currNode) {
 
 void memberList::AddOneMember(memberNode* currNode) {
 	if (!head) {
-		head = tail = currNode;
+		head = tail = currNode;	 // Set head and tail as currNode
 	}
 	else {
-		currNode->setNext(head);
-		head = currNode;
+		currNode->setNext(head);	// Use SetNext function to pushback currNode	
+		head = currNode;	// head is the currNode
 	}
 	cout << currNode->getId() << " member added." << endl;
 }
@@ -160,6 +160,7 @@ void memberList::RemoveOneMember(int id) {
 void memberList::PrintMemberList() const {
 	memberNode* currNode = head;
 
+	// Print out details
 	cout << "===============================================================================" << endl;
 	cout << left << setw(10) << "Id" << setw(25) << "Name" << setw(20) << "Policy" << setw(10) << "Premium" << setw(10) << "Years" << endl;
 	cout << left << setw(10) << "--" << setw(25) << "----" << setw(20) << "------" << setw(10) << "-------" << setw(10) << "-----" << endl;
@@ -185,6 +186,7 @@ void memberList::PrintPolicy(string policy) {
 	double totalPremiums = 0;
 	int policyCount = 0;
 
+	// Print out details
 	cout << "===============================================================================" << endl;
 	cout << "All " << policy << " members" << endl;
 	cout << "===============================================================================" << endl;
@@ -220,7 +222,7 @@ void memberList::PrintPolicy(string policy) {
 // *****************************************************************
 void memberList::PrintYear(int year) {
 	memberNode* currNode = head;
-	bool found = false;
+	bool found = false;	// Want to find if the year is below the client's given year.
 
 	cout << "===============================================================================" << endl;
 	cout << "Members of at least " << year << " years" << endl;
@@ -229,8 +231,8 @@ void memberList::PrintYear(int year) {
 	cout << left << setw(10) << "--" << setw(25) << "----" << setw(20) << "------" << setw(10) << "-------" << setw(10) << "-----" << endl;
 
 
-	while (currNode != nullptr) {
-		if ((currNode->getYear()) >= year) {
+	while (currNode != nullptr) {	// Continue if not null.
+		if ((currNode->getYear()) >= year) {	// If greater than asked year, print out details
 			found = true;
 			cout << left << setw(10) << currNode->getId() << setw(25) << currNode->getName() << setw(20) << currNode->getPolicy() <<
 				setw(10) << currNode->getPremium() << setw(10) << currNode->getYear() << endl;
@@ -239,6 +241,7 @@ void memberList::PrintYear(int year) {
 		currNode = currNode->getNext();
 	}
 
+	// If there are no members that have the given years or greater, print out the following.
 	if (!found) {
 		cout << "Sorry, no members with " << year << " or more years." << endl;
 	}
@@ -256,11 +259,12 @@ void memberList::PrintLowPremium() {
 
 	while (curr != nullptr) {
 		if (curr->getPremium() < lowest->getPremium()) {
-			lowest = curr;
+			lowest = curr;	// Updates lowest with the node with the lowest premium
 		}
 		curr = curr->getNext();
 	}
 
+	// Prints details for the member with the lowest premium
 	cout << "Member with the lowest premium: " << endl;
 	cout << left << setw(10) << "Id" << setw(25) << "Name" << setw(20) << "Policy" << setw(10) << "Premium" << setw(10) << "Years" << endl;
 	cout << left << setw(10) << "--" << setw(25) << "----" << setw(20) << "------" << setw(10) << "-------" << setw(10) << "-----" << endl;
